@@ -210,6 +210,11 @@ export default function NavSafetyBlog() {
   const [showAI, setShowAI] = useState(false);
   const [generatingHook, setGeneratingHook] = useState(false);
   const [toast, setToast] = useState("");
+  const [authed, setAuthed] = useState(false);
+  const [showPwPrompt, setShowPwPrompt] = useState(false);
+  const [pwInput, setPwInput] = useState("");
+  const [pwError, setPwError] = useState(false);
+  const ADMIN_PW = "navsafety2026";
 
   function showToast(msg) { setToast(msg); setTimeout(() => setToast(""), 3000); }
 
@@ -312,9 +317,24 @@ export default function NavSafetyBlog() {
           {["home","about"].map(v => (
             <button key={v} onClick={() => setView(v)} style={{ fontSize: 13, padding: "6px 14px", borderRadius: "var(--border-radius-md)", border: "0.5px solid var(--color-border-secondary)", background: view === v ? "var(--color-background-secondary)" : "transparent", cursor: "pointer", color: "var(--color-text-primary)", textTransform: "capitalize" }}>{v === "home" ? "Articles" : "About"}</button>
           ))}
-          <button onClick={() => setView("editor")} style={{ fontSize: 13, padding: "6px 14px", borderRadius: "var(--border-radius-md)", border: "0.5px solid #1e3a5f", background: "#1e3a5f", cursor: "pointer", color: "white" }}>+ Write</button>
+          <button onClick={() => { if (authed) { setView("editor"); } else { setShowPwPrompt(true); setPwError(false); setPwInput(""); } }} style={{ fontSize: 13, padding: "6px 14px", borderRadius: "var(--border-radius-md)", border: "0.5px solid #1e3a5f", background: "#1e3a5f", cursor: "pointer", color: "white" }}>+ Write</button>
         </div>
       </div>
+
+      {showPwPrompt && (
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 100 }}>
+          <div style={{ background: "var(--color-background-primary)", borderRadius: "var(--border-radius-lg)", padding: "28px 28px 24px", width: 320, border: "0.5px solid var(--color-border-secondary)" }}>
+            <div style={{ fontSize: 15, fontWeight: 500, marginBottom: 6 }}>Author access</div>
+            <div style={{ fontSize: 13, color: "var(--color-text-secondary)", marginBottom: 16 }}>Enter your password to write and publish articles.</div>
+            <input autoFocus type="password" value={pwInput} onChange={e => { setPwInput(e.target.value); setPwError(false); }} onKeyDown={e => { if (e.key === "Enter") { if (pwInput === ADMIN_PW) { setAuthed(true); setShowPwPrompt(false); setView("editor"); } else { setPwError(true); } } }} placeholder="Password" style={{ width: "100%", fontSize: 13, padding: "9px 12px", border: `0.5px solid ${pwError ? "var(--color-border-danger)" : "var(--color-border-secondary)"}`, borderRadius: "var(--border-radius-md)", background: "var(--color-background-primary)", color: "var(--color-text-primary)", boxSizing: "border-box", marginBottom: 6 }} />
+            {pwError && <div style={{ fontSize: 12, color: "var(--color-text-danger)", marginBottom: 10 }}>Incorrect password.</div>}
+            <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
+              <button onClick={() => { if (pwInput === ADMIN_PW) { setAuthed(true); setShowPwPrompt(false); setView("editor"); } else { setPwError(true); } }} style={{ flex: 1, padding: "8px", fontSize: 13, background: "#1e3a5f", color: "white", border: "none", borderRadius: "var(--border-radius-md)", cursor: "pointer" }}>Enter</button>
+              <button onClick={() => setShowPwPrompt(false)} style={{ flex: 1, padding: "8px", fontSize: 13, background: "transparent", color: "var(--color-text-secondary)", border: "0.5px solid var(--color-border-secondary)", borderRadius: "var(--border-radius-md)", cursor: "pointer" }}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {toast && <div style={{ margin: "12px 0 0", padding: "10px 14px", background: "var(--color-background-success)", color: "var(--color-text-success)", borderRadius: "var(--border-radius-md)", fontSize: 13, border: "0.5px solid var(--color-border-success)" }}>{toast}</div>}
 
