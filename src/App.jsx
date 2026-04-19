@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const DEFAULT_POSTS = [
   {
@@ -305,6 +305,7 @@ export default function NavSafetyBlog() {
             <div style={{ fontSize: 16, fontWeight: 500 }}>NavSafety Blog</div>
             <div style={{ fontSize: 11, color: "var(--color-text-secondary)" }}>Navigation & Safety Insights</div>
           </div>
+          <div style={{ fontSize: 12, color: "var(--color-text-tertiary)", borderLeft: "0.5px solid var(--color-border-tertiary)", paddingLeft: 12 }}>Capt. Nabo Ghosh</div>
         </div>
         <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
           <div style={{ fontSize: 12, color: "var(--color-text-tertiary)", marginRight: 2 }}>{readCount}/{totalCount} read</div>
@@ -397,7 +398,13 @@ export default function NavSafetyBlog() {
             {(selectedPost.tags || []).map(t => <span key={t} style={{ fontSize: 11, padding: "3px 9px", borderRadius: 20, background: "var(--color-background-secondary)", color: "var(--color-text-secondary)" }}>#{t}</span>)}
           </div>
           <h1 style={{ fontSize: 22, fontWeight: 500, lineHeight: 1.4, margin: "0 0 10px" }}>{selectedPost.title}</h1>
-          <div style={{ fontSize: 13, color: "var(--color-text-tertiary)", marginBottom: 22 }}>{selectedPost.date} · {selectedPost.readTime} min read</div>
+          <div style={{ fontSize: 13, color: "var(--color-text-tertiary)", marginBottom: 22, display: "flex", gap: 10, alignItems: "center" }}>
+            <span>{selectedPost.date}</span>
+            <span>·</span>
+            <span>{selectedPost.readTime} min read</span>
+            <span>·</span>
+            <span style={{ color: "#1e3a5f", fontWeight: 500 }}>Capt. Nabo Ghosh</span>
+          </div>
 
           {selectedPost.hook && <HookBanner hook={selectedPost.hook} loading={false} />}
 
@@ -475,6 +482,15 @@ export default function NavSafetyBlog() {
             <svg width="26" height="26" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" stroke="white" strokeOpacity="0.5" strokeWidth="1.5"/><path d="M24 4L24 44M4 24L44 24" stroke="white" strokeOpacity="0.4" strokeWidth="1.5"/></svg>
           </div>
           <h2 style={{ fontSize: 18, fontWeight: 500, margin: "0 0 12px" }}>About NavSafety Blog</h2>
+          <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px", background: "var(--color-background-secondary)", borderRadius: "var(--border-radius-lg)", marginBottom: 20 }}>
+            <div style={{ width: 48, height: 48, borderRadius: "50%", background: "#1e3a5f", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <span style={{ fontSize: 15, fontWeight: 500, color: "white" }}>NG</span>
+            </div>
+            <div>
+              <div style={{ fontSize: 14, fontWeight: 500 }}>Capt. Nabo Ghosh</div>
+              <div style={{ fontSize: 12, color: "var(--color-text-secondary)", marginTop: 2 }}>Navigation & Safety Professional · Maritime Fleet Standards</div>
+            </div>
+          </div>
           <p style={{ fontSize: 15, lineHeight: 1.8, color: "var(--color-text-secondary)", margin: "0 0 14px" }}>NavSafety Blog is a resource for maritime professionals focused on navigation quality, bridge procedures, and safety standards.</p>
           <p style={{ fontSize: 15, lineHeight: 1.8, color: "var(--color-text-secondary)", margin: "0 0 14px" }}>Every article opens with a surprising statistic or striking fact — designed to engage your thinking before you read a single paragraph.</p>
           <p style={{ fontSize: 15, lineHeight: 1.8, color: "var(--color-text-secondary)" }}>The goal is simple: raise navigation quality across fleets through practical, accessible knowledge.</p>
